@@ -1,21 +1,28 @@
 var path = require('path');
 var webpack = require('webpack');
 module.exports = {
-	entry: './src/main.js',
+	entry: './src/index.jsx',
 	output: {
 		path: path.resolve(__dirname, 'dist'),
-		filename: 'main.bundle.js',
+		filename: 'bundle.js',
 		publicPath: '/public/'
+	},
+	resolve: {
+		extensions: ['.js', '.jsx']
 	},
 	module: {
 		rules: [
 			{
-				test: /\.js$/,
+				test: /\.jsx/,
 				loader: 'babel-loader',
 				query:
 				{
-					presets: ['env']
+					presets: ['react', 'env']
 				}
+			},
+			{
+				test: /\.scss/,
+				use: ['style-loader', 'css-loader', 'sass-loader']
 			}
 		]
 	},
