@@ -4,8 +4,7 @@ module.exports = {
 	entry: './src/index.jsx',
 	output: {
 		path: path.resolve(__dirname, 'dist'),
-		filename: 'bundle.js',
-		publicPath: '/public/'
+		filename: 'bundle.js'
 	},
 	resolve: {
 		extensions: ['.js', '.jsx']
@@ -29,5 +28,9 @@ module.exports = {
 	stats: {
 		colors: true
 	},
-	devtool: 'source-map'
+	devtool: 'source-map',
+	devServer: {
+		contentBase: './',
+		publicPath: '/dist'
+	}
 };
