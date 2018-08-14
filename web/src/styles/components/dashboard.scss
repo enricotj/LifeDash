@@ -1,3 +1,43 @@
-.dashboard {
-    color: red;
+
+.pillar-list-container {
+  margin-top: 25px;
+}
+
+.pillar {
+  margin-top: 10px;
+  color: white;
+  transition: background-color 1s;
+}
+
+.pillar h4 {
+  padding-left: 25px;
+  padding-bottom: 5px;
+}
+
+.pillar-list-item:hover {
+  background-color: #26a69a !important;
+}
+
+.remove-pillar {
+  float: right;
+  right: 20px;
+}
+
+#pillar-add-form {
+  animation-duration: 1s;
+  animation-name: slidein;
+}
+
+#nothing-was-found {
+  margin-top: 150px;
+}
+
+@keyframes slidein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    margin-left: 1;
+  }
 }
