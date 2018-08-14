@@ -5,6 +5,9 @@
 # Installed node modules
 node_modules/
 
+# Firebase keys
+dev.jsx
+
 
 #======================================
 # Android
