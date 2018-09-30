@@ -11,14 +11,14 @@ import combineReducers from "./reducers";
 import registerServiceWorker from './registerServiceWorker';
 
 // Components and Styles
-import App from './components/app';
+import Dashboard from './components/dashboard';
 import './styles/app.scss';
 
 const store = createStore(combineReducers, {}, applyMiddleware(reduxThunk));
 
 ReactDOM.render(
 	//<Provider store={store}> <App/> </Provider>,
-	<Provider store={store}><App/></Provider>,
+	<Provider store={store}><Dashboard/></Provider>,
 	document.getElementById('root')
 );
 

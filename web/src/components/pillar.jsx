@@ -12,22 +12,20 @@ class Pillar extends Component {
 
 	// events
 	handleRemoveClick() {
-		const { removePillar } = this.props;
-		removePillar(removePillar);
+		const { pillarId, pillar } = this.props;
+		console.log(pillarId);
+		this.props.removePillar(pillarId);
 	};
 
 	// other functions
 	render() {
 		const { pillarId, pillar } = this.props;
 		return (
-			<div key="pillarName" className="col s10 offset-s1 pillar teal">
+			<div key="pillarName">
 				<h4>
 					{pillar.title}{" "}
-					<span
-						onClick={() => this.handleRemoveClick(pillarId)}
-						className="remove-pillar waves-effect waves-light teal lighten-5 teal-text text-darken-4 btn"
-					>
-						<i className="large material-icons">removed</i>
+					<span onClick={this.handleRemoveClick}>
+						<i>removed</i>
 					</span>
 				</h4>
 			</div>

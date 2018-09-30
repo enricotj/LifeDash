@@ -53638,7 +53638,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, ".pillar-list-container {\n  margin-top: 25px; }\n\n.pillar {\n  margin-top: 10px;\n  color: white;\n  transition: background-color 1s; }\n\n.pillar h4 {\n  padding-left: 25px;\n  padding-bottom: 5px; }\n\n.pillar-list-item:hover {\n  background-color: #26a69a !important; }\n\n.remove-pillar {\n  float: right;\n  right: 20px; }\n\n#pillar-add-form {\n  animation-duration: 1s;\n  animation-name: slidein; }\n\n#nothing-was-found {\n  margin-top: 150px; }\n\n@keyframes slidein {\n  from {\n    opacity: 0; }\n  to {\n    margin-left: 1; } }\n", ""]);
+exports.push([module.i, "", ""]);
 
 // exports
 
@@ -53657,7 +53657,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".pillar-list-container {\n  margin-top: 25px; }\n\n.pillar {\n  margin-top: 10px;\n  color: white;\n  transition: background-color 1s; }\n\n.pillar h4 {\n  padding-left: 25px;\n  padding-bottom: 5px; }\n\n.pillar-list-item:hover {\n  background-color: #26a69a !important; }\n\n.remove-pillar {\n  float: right;\n  right: 20px; }\n\n#pillar-add-form {\n  animation-duration: 1s;\n  animation-name: slidein; }\n\n#nothing-was-found {\n  margin-top: 150px; }\n\n@keyframes slidein {\n  from {\n    opacity: 0; }\n  to {\n    margin-left: 1; } }\n", ""]);
+exports.push([module.i, "", ""]);
 
 // exports
 
@@ -54555,6 +54555,38 @@ __webpack_require__(/*! @firebase/storage */ "./node_modules/@firebase/storage/d
 console.warn("\nIt looks like you're using the development build of the Firebase JS SDK.\nWhen deploying Firebase apps to production, it is advisable to only import\nthe individual SDK components you intend to use.\n\nFor the module builds, these are available in the following manner\n(replace <PACKAGE> with the name of a component - i.e. auth, database, etc):\n\nCommonJS Modules:\nconst firebase = require('firebase/app');\nrequire('firebase/<PACKAGE>');\n\nES Modules:\nimport firebase from 'firebase/app';\nimport 'firebase/<PACKAGE>';\n");
 
 module.exports = firebase;
+
+
+/***/ }),
+
+/***/ "./node_modules/firebase/firestore/dist/index.esm.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/firebase/firestore/dist/index.esm.js ***!
+  \***********************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _firebase_firestore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @firebase/firestore */ "./node_modules/@firebase/firestore/dist/index.cjs.js");
+/* harmony import */ var _firebase_firestore__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_firebase_firestore__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/**
+ * Copyright 2017 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 
 /***/ }),
@@ -96396,7 +96428,9 @@ var addPillar = exports.addPillar = function addPillar(newPillar) {
 				while (1) {
 					switch (_context.prev = _context.next) {
 						case 0:
-							_firebase.pillarsRef.push().set(newPillar);
+							_firebase.pillarsRef.add(newPillar).then(function (ref) {
+								console.log('Added document with ID: ', ref.id);
+							});
 
 						case 1:
 						case "end":
@@ -96412,16 +96446,20 @@ var addPillar = exports.addPillar = function addPillar(newPillar) {
 	}();
 };
 
-var removePillar = exports.removePillar = function removePillar(deadPillar) {
+var removePillar = exports.removePillar = function removePillar(deadPillarId) {
 	return function () {
 		var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(dispatch) {
 			return regeneratorRuntime.wrap(function _callee2$(_context2) {
 				while (1) {
 					switch (_context2.prev = _context2.next) {
 						case 0:
-							_firebase.pillarsRef.child(deadPillar).remove();
+							console.log('asdfasdf');
+							console.log(deadPillarId);
+							_firebase.pillarsRef.doc(deadPillarId).delete().then(function (ref) {
+								console.log('Deleted document with ID: ', deadPillarId);
+							});;
 
-						case 1:
+						case 4:
 						case "end":
 							return _context2.stop();
 					}
@@ -96442,16 +96480,21 @@ var fetchPillars = exports.fetchPillars = function fetchPillars() {
 				while (1) {
 					switch (_context3.prev = _context3.next) {
 						case 0:
-							console.log("hi");
-							_firebase.pillarsRef.once("value").then(function (snapshot) {
-								console.log("asdf");
+							_firebase.pillarsRef.get().then(function (snapshot) {
+								var pillars = [];
+								snapshot.forEach(function (doc) {
+									console.log(doc.id, '=>', doc.data());
+									pillars.push({ id: doc.id, data: doc.data() });
+								});
 								dispatch({
 									type: _types.FETCH_PILLARS,
-									payload: snapshot.toJSON()
+									payload: pillars
 								});
+							}).catch(function (err) {
+								console.log('Error getting documents', err);
 							});
 
-						case 2:
+						case 1:
 						case "end":
 							return _context3.stop();
 					}
@@ -96482,65 +96525,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 var FETCH_PILLARS = exports.FETCH_PILLARS = "FETCH_PILLARS";
 var FETCH_USER = exports.FETCH_USER = "FETCH_USER";
-
-/***/ }),
-
-/***/ "./src/components/app.jsx":
-/*!********************************!*\
-  !*** ./src/components/app.jsx ***!
-  \********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _dashboard = __webpack_require__(/*! ./dashboard */ "./src/components/dashboard.jsx");
-
-var _dashboard2 = _interopRequireDefault(_dashboard);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var App = function (_Component) {
-	_inherits(App, _Component);
-
-	function App() {
-		_classCallCheck(this, App);
-
-		return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
-	}
-
-	_createClass(App, [{
-		key: "render",
-		value: function render() {
-			return _react2.default.createElement(
-				"div",
-				{ className: "container" },
-				_react2.default.createElement(_dashboard2.default, null)
-			);
-		}
-	}]);
-
-	return App;
-}(_react.Component);
-
-exports.default = App;
 
 /***/ }),
 
@@ -96629,8 +96613,7 @@ var Dashboard = function (_Component) {
 			var addFormValue = this.state.addFormValue;
 			var addPillar = this.props.addPillar;
 
-			event.preventDefault();
-			addPillar({ title: addFormValue });
+			this.props.addPillar({ title: addFormValue });
 			this.setState(function (prevState) {
 				return { addFormValue: "" };
 			});
@@ -96648,35 +96631,31 @@ var Dashboard = function (_Component) {
 			if (addFormVisible) {
 				return _react2.default.createElement(
 					"div",
-					{ id: "pillar-add-form", className: "col s10 offset-s1" },
+					{ id: "pillar-add-form" },
 					_react2.default.createElement(
-						"form",
-						{ onSubmit: this.handleFormSubmit },
+						"div",
+						null,
 						_react2.default.createElement(
-							"div",
-							{ className: "input-field" },
-							_react2.default.createElement(
-								"i",
-								{ className: "material-icons prefix" },
-								"note_add"
-							),
-							_react2.default.createElement("input", {
-								value: addFormValue,
-								onChange: this.handleInputChange,
-								id: "pillarNew",
-								type: "text"
-							}),
-							_react2.default.createElement(
-								"label",
-								{ htmlFor: "pillarNew" },
-								"A New Life Pillar"
-							)
+							"i",
+							null,
+							"note_add"
 						),
+						_react2.default.createElement("input", {
+							value: addFormValue,
+							onChange: this.handleInputChange,
+							id: "pillarNew",
+							type: "text"
+						}),
 						_react2.default.createElement(
-							"button",
-							{ onClick: this.handleFormSubmit, className: "btn-submit" },
-							"Submit"
+							"label",
+							{ htmlFor: "pillarNew" },
+							"A New Life Pillar"
 						)
+					),
+					_react2.default.createElement(
+						"button",
+						{ onClick: this.handleFormSubmit },
+						"Submit"
 					)
 				);
 			}
@@ -96687,14 +96666,16 @@ var Dashboard = function (_Component) {
 			var data = this.props.data;
 
 			var pillars = _lodash2.default.map(data, function (value, key) {
-				return _react2.default.createElement(_pillar2.default, { key: key, pillarId: key, pillar: value });
+				console.log(value.id, '=>', value.data);
+				return _react2.default.createElement(_pillar2.default, { key: key, pillarId: value.id, pillar: value.data });
 			});
 			if (!_lodash2.default.isEmpty(pillars)) {
+				console.log(data);
 				return pillars;
 			}
 			return _react2.default.createElement(
 				"div",
-				{ className: "col s10 offset-s1 center-align" },
+				null,
 				_react2.default.createElement(
 					"h4",
 					null,
@@ -96725,7 +96706,7 @@ var Dashboard = function (_Component) {
 				),
 				_react2.default.createElement(
 					"div",
-					{ className: "fixed-action-btn" },
+					null,
 					_react2.default.createElement(
 						"button",
 						{
@@ -96733,16 +96714,15 @@ var Dashboard = function (_Component) {
 								return _this2.setState(function (prevState) {
 									return { addFormVisible: !addFormVisible };
 								});
-							},
-							className: "btn-floating btn-large teal darken-4"
+							}
 						},
 						addFormVisible ? _react2.default.createElement(
 							"i",
-							{ className: "large material-icons" },
+							null,
 							"close"
 						) : _react2.default.createElement(
 							"i",
-							{ className: "large material-icons" },
+							null,
 							"add"
 						)
 					)
@@ -96821,9 +96801,13 @@ var Pillar = function (_Component) {
 
 		// events
 		value: function handleRemoveClick() {
-			var removePillar = this.props.removePillar;
+			var _props = this.props,
+			    pillarId = _props.pillarId,
+			    pillar = _props.pillar;
 
-			removePillar(removePillar);
+			console.log(pillarId);
+			this.props.removePillar(pillarId);
+			console.log('hi');
 		}
 	}, {
 		key: "render",
@@ -96831,15 +96815,13 @@ var Pillar = function (_Component) {
 
 		// other functions
 		value: function render() {
-			var _this2 = this;
-
-			var _props = this.props,
-			    pillarId = _props.pillarId,
-			    pillar = _props.pillar;
+			var _props2 = this.props,
+			    pillarId = _props2.pillarId,
+			    pillar = _props2.pillar;
 
 			return _react2.default.createElement(
 				"div",
-				{ key: "pillarName", className: "col s10 offset-s1 pillar teal" },
+				{ key: "pillarName" },
 				_react2.default.createElement(
 					"h4",
 					null,
@@ -96847,15 +96829,10 @@ var Pillar = function (_Component) {
 					" ",
 					_react2.default.createElement(
 						"span",
-						{
-							onClick: function onClick() {
-								return _this2.handleRemoveClick(pillarId);
-							},
-							className: "remove-pillar waves-effect waves-light teal lighten-5 teal-text text-darken-4 btn"
-						},
+						{ onClick: this.handleRemoveClick },
 						_react2.default.createElement(
 							"i",
-							{ className: "large material-icons" },
+							null,
 							"removed"
 						)
 					)
@@ -96885,9 +96862,12 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 var FirebaseConfig = exports.FirebaseConfig = {
-	apiKey: "AIzaSyBpmpT74KPsoY4tlVnGP1j9lyM_JmQ5AF0",
-	authDomain: "lifedash-ec268.firebaseapp.com",
-	databaseURL: "https://lifedash-ec268.firebaseio.com"
+	apiKey: "AIzaSyAbWiIWfe6UlKd8GH_pA6hw79j6P2xDsI0",
+	authDomain: "life-dash-42f8e.firebaseapp.com",
+	databaseURL: "https://life-dash-42f8e.firebaseio.com",
+	projectId: "life-dash-42f8e",
+	storageBucket: "life-dash-42f8e.appspot.com",
+	messagingSenderId: "15362708271"
 };
 
 /***/ }),
@@ -96911,13 +96891,18 @@ var _firebase = __webpack_require__(/*! firebase */ "./node_modules/firebase/dis
 
 var _firebase2 = _interopRequireDefault(_firebase);
 
+__webpack_require__(/*! firebase/firestore */ "./node_modules/firebase/firestore/dist/index.esm.js");
+
 var _keys = __webpack_require__(/*! ../config/keys */ "./src/config/keys.jsx");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _firebase2.default.initializeApp(_keys.FirebaseConfig);
 
-var pillarsRef = exports.pillarsRef = _firebase2.default.database().ref("pillars");
+var db = _firebase2.default.firestore();
+var settings = { /* your settings... */timestampsInSnapshots: true };
+db.settings(settings);
+var pillarsRef = exports.pillarsRef = db.collection("pillars");
 
 /***/ }),
 
@@ -96971,9 +96956,9 @@ var _registerServiceWorker = __webpack_require__(/*! ./registerServiceWorker */ 
 
 var _registerServiceWorker2 = _interopRequireDefault(_registerServiceWorker);
 
-var _app = __webpack_require__(/*! ./components/app */ "./src/components/app.jsx");
+var _dashboard = __webpack_require__(/*! ./components/dashboard */ "./src/components/dashboard.jsx");
 
-var _app2 = _interopRequireDefault(_app);
+var _dashboard2 = _interopRequireDefault(_dashboard);
 
 __webpack_require__(/*! ./styles/app.scss */ "./src/styles/app.scss");
 
@@ -96991,7 +96976,7 @@ _reactDom2.default.render(
 _react2.default.createElement(
 	_reactRedux.Provider,
 	{ store: store },
-	_react2.default.createElement(_app2.default, null)
+	_react2.default.createElement(_dashboard2.default, null)
 ), document.getElementById('root'));
 
 (0, _registerServiceWorker2.default)();

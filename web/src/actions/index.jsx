@@ -2,20 +2,33 @@ import { pillarsRef } from "../config/firebase";
 import { FETCH_PILLARS } from "./types";
 
 export const addPillar = newPillar => async dispatch => {
-	pillarsRef.push().set(newPillar);
+	pillarsRef.add(newPillar).then(ref => {
+		console.log('Added document with ID: ', ref.id);
+	});
 };
 
-export const removePillar = deadPillar => async dispatch => {
-	pillarsRef.child(deadPillar).remove();
+export const removePillar = deadPillarId => async dispatch => {
+	console.log('asdfasdf');
+	console.log(deadPillarId);
+	pillarsRef.doc(deadPillarId).delete().then(ref => {
+		console.log('Deleted document with ID: ', deadPillarId);
+	});;
 };
 
 export const fetchPillars = () => async dispatch => {
-	console.log("hi");
-	pillarsRef.once("value").then(snapshot => {
-		console.log("asdf");
+	pillarsRef.get()
+	.then(snapshot => {
+		var pillars = [];
+		snapshot.forEach(doc => {
+			console.log(doc.id, '=>', doc.data());
+			pillars.push({id:doc.id, data: doc.data()});
+		});
 		dispatch({
 			type: FETCH_PILLARS,
-			payload: snapshot.toJSON()
+			payload: pillars
 		});
-	});
+	})
+	.catch(err => {
+      console.log('Error getting documents', err);
+    });
 };
