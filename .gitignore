@@ -6,8 +6,7 @@
 node_modules/
 
 # Firebase keys
-dev.jsx
-
+web/src/config/dev.jsx
 
 #======================================
 # Android
